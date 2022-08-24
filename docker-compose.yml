@@ -8,7 +8,7 @@ services:
         PHP_FPM_SERVER: php
         PHP_FPM_PORT: 9000
     ports:
-      - ${DOCKER_NGINX_EXTERNAL_PORT-8000}:80
+      - ${DOCKER_NGINX_EXTERNAL_PORT-80}:80
     depends_on:
       - php
     links:
@@ -29,20 +29,6 @@ services:
       APP_ENV: local
     links:
       - mysql
-
-  mysql:
-    image: mysql:5.7
-    platform: linux/amd64
-    volumes:
-      - mysqldata:/var/lib/mysql
-      - ./deployment/docker/mysql-database-test.sql:/docker-entrypoint-initdb.d/mysql-database-test.sql
-    environment:
-      MYSQL_DATABASE: app_db
-      MYSQL_ROOT_PASSWORD: secret
-      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
-    ports:
-      - ${DOCKER_MYSQL_EXTERNAL_PORT-3309}:3306
-    command: [ 'mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci' ]
 
 volumes:
   mysqldata:
